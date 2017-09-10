@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[115]:
+# In[125]:
 
 from collections import defaultdict
 import operator
@@ -60,6 +60,10 @@ def get_next_word_bigram(sentence, corpus):
     for key in corpus:
         if key[0] == last_word:
             candidates[key[1]] = corpus[key]
+            total_prob += corpus[key]
+    
+    for key in candidates:
+        candidates[key] /= total_prob
     
     keys = [key for key in sorted(candidates, key=candidates.get)]
     probs = [candidates[key] for key in sorted(candidates, key=candidates.get)]
@@ -69,44 +73,45 @@ pos_file = 'SentimentDataset/Train/pos.txt'
 pos_corpus = get_corpus(pos_file)
 
 
-# In[116]:
+# In[126]:
 
 pos_unigram_freqs = get_unigram_freqs(pos_corpus)
 #pos_unigram_freqs
 
 
-# In[117]:
+# In[127]:
 
 pos_bigram_freqs = get_bigram_freqs(pos_corpus, pos_unigram_freqs)
 #pos_bigram_freqs
 
 
-# In[121]:
+# In[140]:
 
 # Generate a sentence using unigram model
 def generate_unigram_sentence(length):
     start = ['<s>']
     for i in range(0, length):
         nxt = get_next_word_unigram(pos_unigram_freqs)
-        start.append(nxt)
-        if nxt == '</s>':
+        if nxt == '</s>' or nxt == '.':
             break
+        start.append(nxt)
         
     print(' '.join(start[1:]))
 
 generate_unigram_sentence(20)
 
 
-# In[124]:
+# In[141]:
 
 # Generate a sentence using bigram model
 def generate_bigram_sentence(length):
     bi_start = ['<s>']
     for i in range(0, length):
         nxt = get_next_word_bigram(bi_start, pos_bigram_freqs)
-        bi_start.append(nxt)
-        if nxt == '</s>':
+        if nxt == '</s>' or nxt == '.':
             break
+        bi_start.append(nxt)
+
     print(' '.join(bi_start[1:]))
     
 generate_bigram_sentence(20)

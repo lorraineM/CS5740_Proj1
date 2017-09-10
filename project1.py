@@ -1,4 +1,3 @@
-
 # coding: utf-8
 
 # In[125]:
@@ -70,54 +69,66 @@ def get_next_word_bigram(sentence, corpus):
     return np.random.choice(keys, 1, probs)[0]
 
 pos_file = 'SentimentDataset/Train/pos.txt'
+neg_file = 'SentimentDataset/Train/neg.txt'
 pos_corpus = get_corpus(pos_file)
+neg_corpus = get_corpus(neg_file)
 
 
 # In[126]:
 
 pos_unigram_freqs = get_unigram_freqs(pos_corpus)
+neg_unigram_freqs = get_unigram_freqs(neg_corpus)
 #pos_unigram_freqs
 
 
 # In[127]:
 
 pos_bigram_freqs = get_bigram_freqs(pos_corpus, pos_unigram_freqs)
+neg_bigram_freqs = get_bigram_freqs(neg_corpus, neg_unigram_freqs)
 #pos_bigram_freqs
 
 
 # In[140]:
 
 # Generate a sentence using unigram model
-def generate_unigram_sentence(length):
+def generate_unigram_sentence(length, model):
+    e = pos_unigram_freqs
+    if model == 0:
+        e = neg_unigram_freqs
     start = ['<s>']
     for i in range(0, length):
-        nxt = get_next_word_unigram(pos_unigram_freqs)
+        nxt = get_next_word_unigram(e)
         if nxt == '</s>' or nxt == '.':
             break
         start.append(nxt)
         
     print(' '.join(start[1:]))
 
-generate_unigram_sentence(20)
+print "Generate Unigram Sentence using positive sentiment file:"
+generate_unigram_sentence(20,1)
 
 
 # In[141]:
 
 # Generate a sentence using bigram model
-def generate_bigram_sentence(length):
+def generate_bigram_sentence(length, model):
+    e = pos_bigram_freqs
+    if model == 0:
+        e = neg_bigram_freqs
     bi_start = ['<s>']
     for i in range(0, length):
-        nxt = get_next_word_bigram(bi_start, pos_bigram_freqs)
+        nxt = get_next_word_bigram(bi_start, e)
         if nxt == '</s>' or nxt == '.':
             break
         bi_start.append(nxt)
 
     print(' '.join(bi_start[1:]))
-    
-generate_bigram_sentence(20)
 
+print "Generate Bigram Sentence using positive sentiment file:"
+generate_bigram_sentence(20,1)
 
-# In[ ]:
-
-
-
+print ""
+print "Generate Unigram Sentence using negtive sentiment file:"
+generate_unigram_sentence(20,0)
+print "Generate Bigram Sentence using negtive sentiment file:"
+generate_unigram_sentence(20,0)

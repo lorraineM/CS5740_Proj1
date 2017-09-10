@@ -135,7 +135,7 @@ print "Generate Bigram Sentence using positive sentiment file:"
 generate_bigram_sentence(20,1)
 
 print ""
-print "Generate Unigram Sentence using negtive sentiment file:"
+print "Generate Unigram Sentence using negative sentiment file:"
 generate_unigram_sentence(20,0)
-print "Generate Bigram Sentence using negtive sentiment file:"
+print "Generate Bigram Sentence using negative sentiment file:"
 generate_unigram_sentence(20,0)

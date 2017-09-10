@@ -1,3 +1,9 @@
+#Shuo Huang (sh2443)
+#Xinyu Ma (xm99)
+#Yiran Zheng (yz2353)
+#CS5740 
+#Project1 Part1
+
 # coding: utf-8
 
 # In[125]:
@@ -7,6 +13,7 @@ import operator
 import random
 import numpy as np
 
+#read file and generate corpus
 def get_corpus(file):
     corpus = []
     f = open(file, 'r')
@@ -75,14 +82,14 @@ neg_corpus = get_corpus(neg_file)
 
 
 # In[126]:
-
+#generate unigram models for postive and negative files.
 pos_unigram_freqs = get_unigram_freqs(pos_corpus)
 neg_unigram_freqs = get_unigram_freqs(neg_corpus)
 #pos_unigram_freqs
 
 
 # In[127]:
-
+#generate bigram models for positive and negative files
 pos_bigram_freqs = get_bigram_freqs(pos_corpus, pos_unigram_freqs)
 neg_bigram_freqs = get_bigram_freqs(neg_corpus, neg_unigram_freqs)
 #pos_bigram_freqs
